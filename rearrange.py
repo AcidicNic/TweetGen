@@ -3,9 +3,6 @@ from random import randrange
 
 
 def rearrange(words_list):
-    # return shuffle(params)
-    # nvm apparently shuffle is cheating sooooo..
-
     # this list is the same length as words_list, but full of None objects.
     rearranged = [None] * len(words_list)
     for word in words_list:
