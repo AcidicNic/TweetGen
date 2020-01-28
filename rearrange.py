@@ -29,4 +29,6 @@ if __name__ == '__main__':
     if len(argv) > 1:
         print(rearrange(argv[1:]))
     else:
-        print('Please enter words for me to rearrange!')
+        pls = 'Please enter words for me to rearrange!'
+        print(pls)
+        print(rearrange(pls.split()))

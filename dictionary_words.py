@@ -7,9 +7,7 @@ from random import randrange
 
 def setup_dict():
     with open("/usr/share/dict/words", 'r') as dict_file:
-        dict_str = dict_file.read()
-    dict_list = dict_str.split("\n")
-    dict_list.pop()
+        dict_list = dict_file.read().splitlines()
     return dict_list
 
 
