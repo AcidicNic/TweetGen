@@ -18,10 +18,10 @@ class Histogram:
 
         self.histogram = get_histogram(self.word_list)
 
-        self.total_tokens = get_total_tokens(self.histogram)
-        self.total_types = unique_words(self.histogram)
-
-        self.markov_chain = markov(self.word_list)
+        # self.total_tokens = get_total_tokens(self.histogram)
+        # self.total_types = unique_words(self.histogram)
+        #
+        # self.markov_chain = markov(self.word_list)
         # print(self.markov_chain)
 
 
@@ -45,7 +45,7 @@ def get_word_list(source_text):
 
     for i in reversed(range(len(word_list))):
         # remove any character that isn't a-z or 0-9 at the beginning or end of each string
-        word_list[i] = sub(r'[()""[\]{}]', '', word_list[i])
+        word_list[i] = sub(r'[()"[\]{}]', '', word_list[i])
         # r.sub("", word_list[i])
         # remove from word list if it's an empty string.
         if word_list[i] == '':
@@ -78,7 +78,7 @@ def get_histogram(word_list, type="SD", freq_dict=None):
         return dict(sorted_tuples)
     if type == "SL":
         # sorted 2d list
-        return list(sorted_tuples)
+        return list(map(list, sorted_tuples))
     if type == "ST":
         # sorted list of tuples.
         return sorted_tuples
@@ -250,6 +250,7 @@ def top_count(histogram, top_num=0):
         exit()
 
 if __name__ == '__main__':
+
     start = time.time()
     mushies = Histogram('source_text', 'f')
     print('Mushroom e-book:')
@@ -257,7 +258,7 @@ if __name__ == '__main__':
     top_count(mushies.histogram, 5)
     print(f"\nunique words: {unique_words(mushies.histogram)}")
     end = time.time()
-    print(end-start)
+    print(f"Seconds: {end-start}")
 
     print('\n')
 
@@ -265,7 +266,10 @@ if __name__ == '__main__':
     print('How much wood could a Woodchuck chuck??:')
     print('-' * 50)
     woodchuck = Histogram('how much wood would a woodchuck chuck if a woodchuck could chuck wood a woodchuck would chuck as much wood as a woodchuck could chuck if a woodchuck could chuck wood')
+    print(f"\nList of Lists: {get_histogram(woodchuck.word_list, 'SL')}")
+    print(f"List of Tuples: {get_histogram(woodchuck.word_list, 'ST')}")
+    print(f"Dictionary: {woodchuck.histogram}")
     top_count(woodchuck.histogram, -1)
     print(f"\nunique words: {unique_words(woodchuck.histogram)}")
     end = time.time()
-    print(end-start)
+    print(f"Seconds: {end-start}")
