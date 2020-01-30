@@ -257,6 +257,7 @@ if __name__ == '__main__':
     print('-' * 50)
     top_count(mushies.histogram, 5)
     print(f"\nunique words: {unique_words(mushies.histogram)}")
+    print(f"Frequency of the word 'and': {frequency(mushies.histogram, 'and')}")
     end = time.time()
     print(f"Seconds: {end-start}")
 
@@ -269,7 +270,10 @@ if __name__ == '__main__':
     print(f"\nList of Lists: {get_histogram(woodchuck.word_list, 'SL')}")
     print(f"List of Tuples: {get_histogram(woodchuck.word_list, 'ST')}")
     print(f"Dictionary: {woodchuck.histogram}")
-    top_count(woodchuck.histogram, -1)
+    # top_count(woodchuck.histogram, -1)
     print(f"\nunique words: {unique_words(woodchuck.histogram)}")
+    print(f"Frequency of the word 'woodchuck': {frequency(woodchuck.histogram, 'woodchuck')}")
+
     end = time.time()
     print(f"Seconds: {end-start}")
+
