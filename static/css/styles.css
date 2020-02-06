@@ -1,0 +1,44 @@
+.m-right {
+  margin-right: 15px;
+}
+
+.m-top {
+  margin-top: 15px;
+}
+
+.card-center {
+  width: 75%;
+  margin: auto;
+}
+
+.header_custom {
+  height: 40vh;
+  min-height: 150px;
+}
+
+.h1_custom {
+  padding-top: 7vh;
+}
+
+.or-span {
+    margin-top: 10px;
+}
+
+.form-div {
+    margin-top: 30px;
+}
+
+.form-label {
+    color: #525252;
+    text-align: center;
+    width: 100%;
+}
+
+.card-text {
+    color: #525252;
+    font-size: 12px;
+}
+
+.generator-box {
+    text-align: center;
+}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+        <header class="masthead header_custom">
+            <div class="container-fluid h-100">
+                <div class="row justify-content-center align-items-center h-100">
+                    <div class="col text-center">
+                        <h1 class="h1_custom m-0 display-4">Favorites <3</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% if tweets %}
+        {% for tweet in tweets %}
+        <section class="py-3 card-center">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{ tweet.tweet }}</h4>
+                    <div class="d-flex justify-content-between">
+
+                        <form method='POST' id='delete_fav' action='/favs/{{ tweet._id }}/delete'>
+                            <input type='hidden' name='_method' value='DELETE'>
+                            <button class="btn btn-danger" type='submit'>Delete</button>
+                        </form>
+
+                        <button class="btn btn-light" onclick="location.href='/generator/{{ tweet.gen_url }}';">- {{ tweet.name }} Generator</button>
+                        <div class="align-self-end">
+                            <p class="card-text">{{ tweet.time}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endfor %}
+    {% else %}
+        <section class="py-3 card-center">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">There are no favorites yet!</h4>
+                    <button class="btn btn-success" type="button" onclick="location.href='/';">Generate Tweets!</button>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+{% endblock %}

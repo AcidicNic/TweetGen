@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <header class="masthead header_custom">
+        <div class="container-fluid h-100">
+            <div class="row justify-content-center align-items-center h-100">
+                <div class="col text-center">
+                    <h1 class="h1_custom m-0 display-4">Tweet Generator</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+{% if generators %}
+    {% for generator in generators %}
+    <section class="py-3 card-center">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{ generator.name }}</h4>
+                <p class="card-text">{{ generator.description}}</p>
+                <button class="btn btn-success m-right" type="button" onclick="location.href='/generator/{{ generator.url }}';">Begin</button>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+{% endif %}
+{% endblock %}

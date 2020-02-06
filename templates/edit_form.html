@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method='POST' action='/generator/{{generator._id}}'>
+    <input type='hidden' name='_method' value='PUT'/>
+        <div class="form-div">
+            <label class="form-label" for="gen-title">Name Your Generator</label><br>
+            <input type="text" name='name' id="gen-title" class="gen-title form-control" value='{{ generator.name }}'/>
+        </div>
+
+        <div class="form-div">
+            <label class="form-label" for="gen-desc">Now Give it a Short Description</label><br>
+            <input type="text" name='desc' id="gen-desc" class="gen-title form-control" value='{{ generator.description }}'/>
+        </div>
+
+        <div class="form-div">
+            <label class="form-label" for="source-textarea">Enter Your Source Text (Leave this blank if you don't want to change it)</label><br>
+            <textarea id="source-textarea" type="text" name='source_text' class="source-textarea form-control">{{ generator.source_text }}</textarea>
+        </div>
+        <div class="form-div m-top" style="text-align: center;">
+            <button class="btn btn-success btn-submit" type="submit">Update!</button>
+        </div>
+</form>
+{% endblock %}

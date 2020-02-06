@@ -1,5 +1,5 @@
 from operator import itemgetter
-from random import randint
+from random import randint, random
 from re import sub
 from sys import argv, exit
 import time
@@ -18,11 +18,10 @@ class Histogram:
 
         self.histogram = get_histogram(self.word_list)
 
-        # self.total_tokens = get_total_tokens(self.histogram)
-        # self.total_types = unique_words(self.histogram)
-        #
-        # self.markov_chain = markov(self.word_list)
-        # print(self.markov_chain)
+        self.total_tokens = get_total_tokens(self.histogram)
+        self.total_types = unique_words(self.histogram)
+
+        self.markov_chain = markov(self.word_list)
 
 
 def get_word_list(source_text):
@@ -84,36 +83,6 @@ def get_histogram(word_list, type="SD", freq_dict=None):
         return sorted_tuples
 
 
-def sample_by_frequency(histogram, tokens):
-    ''' Select a word based on frequency '''
-    if isinstance(histogram, dict):
-        if len(histogram) > 1:
-            selection = randint(0, tokens)
-            total = 0
-            for word, count in histogram.items():
-                total += count
-                if selection <= total:
-                    if word is not None:
-                        return word
-                    else:
-                        return 0
-        else:
-            return list(histogram)[0][0]
-    else:
-        if len(histogram) > 1:
-            selection = randint(0, tokens)
-            total = 0
-            for i in range(len(histogram)):
-                total += histogram[i][1]
-                if selection <= total:
-                    if histogram[i][0] is not None:
-                        return histogram[i][0]
-                    else:
-                        return 0
-        else:
-            return histogram[0][0]
-
-
 def bulk_sample(histogram, tokens, limit):
     result = []
     for _ in range(limit):
@@ -121,8 +90,9 @@ def bulk_sample(histogram, tokens, limit):
     return result
 
 
-def markov(word_list_o, word_pairs={}):
-    word_list = list(word_list_o)
+def markov(word_list, word_pairs=None):
+    if word_pairs is None:
+        word_pairs = {}
     word_pairs['__start__'] = [word_list[0]]
     # word_pairs['__end__'] = [word_list[-1]]
     __end__ = ['__end__', word_list[-1]]
@@ -249,31 +219,53 @@ def top_count(histogram, top_num=0):
         print("*** Invalid histogram ***")
         exit()
 
+
+def sample_by_frequency(histogram, tokens):
+    selection = random()
+    floats = [0]
+    if isinstance(histogram, dict):
+        for word, count in histogram.items():
+            floats.append((count / tokens) + floats[-1])
+            if floats[-2] <= selection < floats[-1]:
+                return word
+    else:
+        for i in range(len(histogram)):
+            floats.append((histogram[i][1] / tokens) + floats[-1])
+            if floats[-2] <= selection < floats[-1]:
+                return histogram[i][0]
+
 if __name__ == '__main__':
 
-    start = time.time()
+    # start = time.time()
     mushies = Histogram('source_text', 'f')
-    print('Mushroom e-book:')
-    print('-' * 50)
-    top_count(mushies.histogram, 5)
-    print(f"\nunique words: {unique_words(mushies.histogram)}")
-    print(f"Frequency of the word 'and': {frequency(mushies.histogram, 'and')}")
-    end = time.time()
-    print(f"Seconds: {end-start}")
+    print(random_sentence(mushies.markov_chain))
+    # print('Mushroom e-book:')
+    # print('-' * 50)
+    # top_count(mushies.histogram, 5)
+    # print(f"\nunique words: {unique_words(mushies.histogram)}")
+    # print(f"Frequency of the word 'and': {frequency(mushies.histogram, 'and')}")
+    # end = time.time()
+    # print(f"Seconds: {end-start}")
+    #
+    # print('\n')
 
-    print('\n')
-
-    start = time.time()
-    print('How much wood could a Woodchuck chuck??:')
-    print('-' * 50)
-    woodchuck = Histogram('how much wood would a woodchuck chuck if a woodchuck could chuck wood a woodchuck would chuck as much wood as a woodchuck could chuck if a woodchuck could chuck wood')
-    print(f"\nList of Lists: {get_histogram(woodchuck.word_list, 'SL')}")
-    print(f"List of Tuples: {get_histogram(woodchuck.word_list, 'ST')}")
-    print(f"Dictionary: {woodchuck.histogram}")
-    # top_count(woodchuck.histogram, -1)
-    print(f"\nunique words: {unique_words(woodchuck.histogram)}")
-    print(f"Frequency of the word 'woodchuck': {frequency(woodchuck.histogram, 'woodchuck')}")
-
-    end = time.time()
-    print(f"Seconds: {end-start}")
+    # start = time.time()
+    # print('How much wood could a Woodchuck chuck??:')
+    # print('-' * 50)
+    # woodchuck = Histogram('how much wood would a woodchuck chuck if a woodchuck could chuck wood a woodchuck would chuck as much wood as a woodchuck could chuck if a woodchuck could chuck wood')
+    # print(f"\nList of Lists: {get_histogram(woodchuck.word_list, 'SL')}")
+    # print(f"List of Tuples: {get_histogram(woodchuck.word_list, 'ST')}")
+    # print(f"Dictionary: {woodchuck.histogram}")
+    # # top_count(woodchuck.histogram, -1)
+    # print(f"\nunique words: {unique_words(woodchuck.histogram)}")
+    # print(f"Frequency of the word 'woodchuck': {frequency(woodchuck.histogram, 'woodchuck')}")
+    # print(woodchuck.histogram)
+    # print(woodchuck.markov_chain)
+    # word_list = []
+    # for _ in range(100000):
+    #     word_list.append(sample_by_frequency(woodchuck.histogram, woodchuck.total_tokens))
+    # sample_histogram = Histogram(word_list)
+    # print(sample_histogram.histogram)
+    # end = time.time()
+    # print(f"Seconds: {end-start}")
 
