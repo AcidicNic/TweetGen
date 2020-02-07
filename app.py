@@ -27,6 +27,14 @@ db = client.get_default_database()
 favorites = db.favorites
 
 # hobo johnson histogram
+cuco_hist = Histogram(source_text.cuco)
+cuco_gen = {
+    'url': 'cuco',
+    'name': "Cuco",
+    'description': "Generates random Cuco bars!"
+}
+
+# hobo johnson histogram
 hobo_hist = Histogram(source_text.hobo_johnson)
 hobo_gen = {
     'url': 'hobo_johnson',
@@ -41,13 +49,31 @@ trip_gen = {
     'name': "Trip Reports",
     'description': ":)"
 }
-gens = [hobo_gen, trip_gen]
+gens = [cuco_gen, hobo_gen, trip_gen]
 
 
 @app.route('/', methods=['POST', 'GET'])
 def show_all():
     ''' show all histograms '''
     return render_template('index.html', generators=gens, title='Tweet Generator')
+
+
+@app.route('/generator/cuco', methods=['POST', 'GET'])
+def cuco_music():
+    if request.form.get('intent') == 'TWEET':
+        # tweet_sentence(trip_gen['rand_sentence'])
+        fav_tweet = {
+            'tweet': cuco_gen['rand_sentence'],
+            'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
+            'name': cuco_gen['name'],
+            'gen_url': cuco_gen['url']
+        }
+        favorites.insert_one(fav_tweet)
+        cuco_gen['intent'] = 'TWEET'
+    else:
+        cuco_gen['rand_sentence'] = random_sentence(cuco_hist.markov_chain)
+        cuco_gen['intent'] = 'REFRESH'
+    return render_template('show_generator.html', generator=cuco_gen, title=cuco_gen['name'])
 
 
 @app.route('/generator/trip_report', methods=['POST', 'GET'])

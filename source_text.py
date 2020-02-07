@@ -1,5 +1,314 @@
 # coding=utf-8
 
+cuco = """
+Summertime is the time
+I like to get high with you, it's true.
+Vibe with me, trip with me
+Let me spend my days with you.
+Summertime is the time
+I like to get high with you, it's true.
+Vibe with me, trip with me
+Let me spend my days with you.
+Baby, come and share your lovely vibes.
+Promise that I'll make you mine tonight.
+Goin' up a hill and we're on a pretty pill.
+I'm just around the corner where the clouds meet up the mills.
+Happiness is back, ain't no one to me but you.
+And no lies have come along, everything I say is true.
+If I'm on cloud nine, maybe thirty even two.
+Ain't no one bringin' me down 'cause my highest is with you.
+So grab my hand and now let's go fly away from town.
+Let's get to outer space, baby, I'm telling you now that.
+
+Wake up losing my mind.
+Let the liquid dream drip down my spine.
+Don't look away, look through my eyes.
+Every breath you take, another part of me dies.
+Tell me that you need me.
+I fell in love again.
+It's been, oh, so long.
+The world was ending, it's so wrong.
+Take this and fly away.
+'Til the substance numbs the pain.
+
+Every single second by your side.
+Next to you in life, where I reside.
+Anyone can see the obvious with their own eyes.
+That you’re special, special to me.
+I know it’s always hard to get just what you want.
+Another day, another life, I need someone.
+Hold my hand, baby, don’t let go.
+For the ocean will give us what we know.
+Our paths will cross some time after we die.
+But I’ll be everywhere that you may go.
+So attached to you, I cannot lie.
+Baby, I have to spend some time alone.
+The aftermath of love and crying eyes.
+I’m here my love, just follow all the signs.
+And I’ll be waiting for you here.
+
+Smoking broken windows.
+I've been tripping off the tabs in my room.
+I don't know why, baby, but I'm feeling blue.
+Take another tab, an ounce of the shrooms.
+No, don't hit my line, babygirl, like, who are you?
+I've been tripping off the tabs in my room.
+I don't know why, baby, but I'm feeling blue.
+Take another tab, an ounce of the shrooms.
+No, don't hit my line, babygirl, like, who are you?
+Oh no, don't hate just get up out my way.
+I've been getting high like every single day.
+And I need some peace of mind.
+I don't know where to find.
+All the the answers to my questions, I'm not satisfied.
+Where my mind is at, Hell is bound to find me.
+And if I find the light, that shit is gonna blind me.
+I've been off it like a prophet, ain't no telling why.
+Lately, can you blame me for the fact that I just lost my mind?
+And if you need me, then you know where to find me.
+I'm feeling lost, I just need someone to guide me.
+Don't wanna feel left out.
+Please, understand me now.
+But If you can't, then it's alright, I'll always be around.
+Smoking broken windows, playing my Nintendo.
+If you fuck with me, then I'll pull out my extendo.
+Smoking broken window, smoking broken window.
+
+Don't play with me.
+You broke my heart.
+But I’m also so obsessed with you.
+I don't know if I love you.
+I don't know if I hate you.
+Baby, it’s time to
+Get out my way
+Get out my life.
+I'm so sick of you just playing games.
+I'm pretty sure I hate you
+I'm pretty sure I love you.
+After all of this commotion
+And the bullshit that you did.
+Cut my body into pieces
+And just throw me off a bridge, uh.
+I think it's fair to say
+That I'm going insane.
+More broken day by day.
+Why won't you go away?
+You say you hate me
+But you stay banging my line.
+Why do you want to break my heart
+And love me at the same time?
+Stupid bitch you came from hell
+And made me lose my fucking mind.
+What did I do to deserve this?
+You just gave me a hard time.
+They hit me up and told me
+That you were with my homie.
+How could you ever hurt me
+I never been so lonely.
+Can't take you back, oh no, no.
+Think that it’s time to go, go.
+You left me all on my own.
+You gon' make me take my passion
+Put it to the side.
+You was the lady I loved
+But you ruined my life.
+But you was so pretty
+That I didn't put up a fight.
+But you was so petty
+And I just knew it wasn't right, knew it wasn't right, yeah.
+I been seeing shit in HD.
+All of this shit it just ain't me.
+You been saying that you hate me.
+Then taking it back and can't face me.
+I roll a blunt just to face it.
+And put the bullshit to the side.
+Made a rollercoaster out my mattress.
+Been trying to put it in the past
+Saying that it's old news.
+Can't stand the thought of your ass
+Deleted your old nudes.
+Made sure you was solid.
+Ain't wanna leave you in the cold, boo.
+I think of the times that we spent.
+It leave me feeling so foolish, so foolish.
+
+Time changed, we're different
+But my mind still says redundant things, can I not think?
+Will you love this part of me?
+My lover is a day I can't forget.
+Furthering my distance from you.
+Realistically, I can't leave now.
+But I'm okay as long as you keep me from going crazy.
+Straight up ahead, you'll find a sign
+That says you can't get by with a lie.
+But if I stayed away by a thread from the glory path
+And made my life harder lying 'bout the stupid shit I say.
+Then you wouldn't know a single thing
+About how I feel about you and all those really dumb things people feel.
+I'll take the bumpy road, it'll probably break my legs.
+As long as I don't show you what's ruining my head.
+Funny thing about you is you read me pretty well,
+But you haven't found me yet at the bottom of the well.
+Annoying you with smoke signals, asking you for help.
+'Cause your immediate presence lifts me straight away from hell.
+Me and Mr. Heart, we say the cutest things about you.
+How you seem unreal and we'd probably die so quick without you.
+Suffocated from the radiated air around us.
+Full of happiness we don't have, brightness gone.
+So dark without you, girl.
+Family calls me crazy and my friends say I'm degenerate
+But you tell me I'm so generous and my self-worth isn't hideous.
+This psychedelic canvas of the person I'm becoming
+Went from horror movie on TV to happy-ending-princess me.
+Processing the information transferred from your mind to me
+At light speed like the Falcon from the original Star Wars trilogy.
+Feeling like a free ol' me when I was six and no worries.
+Would stop me from reaching the stars.
+A million miles away from me.
+Sick in the head for you and no cure has been discovered.
+Like a plague hitting my body except if I fall, I'm just fallin' for you.
+Conscious beyond knowledge, alterations are acknowledged.
+And the beauty you've inflicted is always in its action.
+Lovely day today, perfect time to open up to you.
+But I know that you're having fun.
+Wouldn't wanna mess this up for you.
+But I'm happy that you're happy, at least I do that much for you.
+Always glad you're with me.
+This emotion will be gone before you know.
+
+Get carried away and tell me the things you feel.
+Just don't look away, the feeling here is so real.
+It's just you and I, floating away in space.
+Don't worry 'bout them, they'll all go away some day.
+It's the truth.
+I gotta find my way back home.
+I'll look for you.
+The day that I'm all alone.
+A knock on my door, I wonder who it could be.
+The reflection of one, it's everyone here but me.
+Flew right by my eyes, the essence of company.
+I'm lost in desire, but now, I can feel at ease.
+
+I'm sitting in my room.
+I'm all alone now.
+Missing you, every single day.
+I wish you would say.
+Baby, I love you.
+'Til I die.
+But my hopes are gone.
+The tainted paint that's on the wall.
+Crumbles and corrodes rumbling softly as it hits the floor.
+It's time to say goodbye.
+You said this would never end.
+Guess you played pretend but it's alright.
+I know I wasn't good enough.
+I showed you where it hurts
+And for what's it worth, you made it worse.
+There's always someone better.
+I hope you find that guy to make you happy and meanwhile.
+
+I'm far away from home, but I'm sure I know she knows.
+That there's nobody else existing in my world.
+In the middle of the road, a beacon lighting up for help.
+Telling me to come back home, I don't know where to go.
+In the morning, with nobody next to me.
+In my bed, in my bed.
+So lonely, will somebody come and help?
+I'm rotting in the image of my head.
+
+Baby, I'm gonna do better for you.
+Because I love you with my heart.
+Sunshine, moonlight, my angel.
+Darling, will you take my hand and my love?
+I want to wake up next to you.
+Hold you in my arms forever too.
+
+No matter where you are.
+I'll always be your friend.
+Until my very death.
+I’ll love you with my heart.
+And if this has to end.
+I'll have to understand.
+I know I've been quite dumb.
+But, baby, we’re quite young.
+First things first, I'm sorry.
+I'll take the blame, it's on me.
+You were my little shorty.
+And I've been one big dummy.
+Forgive me.
+For being real stupid.
+Will you give me.
+A chance to just redo it?
+I'm addicted to your love, but my brain been goin' nuts.
+I've been going crazy, going crazy, going crazy.
+Do you know
+How it feels
+To be a fiend
+For someone
+That you love?
+But to be
+Such a klutz.
+What the fuck?
+Why you still with me, still beats me.
+But I’m thankful that you still see me.
+My brain is killing me and it eats me.
+I don’t deserve you.
+
+I don't think I’m meant to be with you.
+I don't wanna make you sad.
+All the time just feeling bad.
+Girl, don't make me fall in love with you.
+I don't think I'm right for you.
+I’m just disappointing you.
+Lonely nights like these you just stumble in my head.
+And I’m wondering what you’re doing.
+And why maybe I'm not dead.
+The thought of you still kills me.
+I know I’m a stupid guy.
+Looking back at my mistakes, I fucked up a million times.
+I couldn't see the day.
+I never called somebody mine.
+Cause every single heartbreak made me lose my fucking mind.
+I guess I was too blind.
+Girl, I see that you were right for me.
+I had to fuck it up, I’m sorry this is not goodbye.
+I let this so-called fame get deep into my head.
+And I'd end up doing thoughtless things.
+That I soon would regret.
+I made you feel special.
+And I should've felt the same.
+Cause I had you by my side.
+How could I have been this way.
+
+Walked into the aisles of our lonely lives.
+Lift our idleness thinking, "will we die sometime".
+Who will sing and make our dreams wake up tonight?
+For an unknown wasteland came into the light.
+I know that you're waiting for me.
+No girl, this ain't make-believe.
+Let me think a moment for the second time.
+Stay inside while I find past still very blind.
+Left me somewhere sitting patient, still right mind.
+Brightness into always sun shines bright as skies.
+
+Maybe, just maybe
+I miss you, I miss you, girl.
+Maybe, just maybe
+I need you, I need you here.
+I'll see you and calm you.
+'Till that guy with the money.
+With no heart, you still love him why.
+Lost in dimensions.
+With no one to guide me.
+From the utopia to Europa.
+To Europe back to your place, dear.
+I'm at your front door.
+But I'm dead can't knock now, dear.
+Will you still open.
+Drowning in the river where my heart was once a quiver.
+To the cupid in San Pedro by the high cliffs near your lover's building.
+"""
+
 hobo_johnson = """
 I just bought a Subaru Crosstrek.
 I woulda bought a Lambo, but I'm not quite there yet.
@@ -233,7 +542,7 @@ That's Elon Musk just in his little lab cooking up, baby.
 But what were you talking about?
 Oh yeah, your boyfriend made you mad the other day?
 What was he saying? Oh, what do I think? Hmm.
-He was being mean at that part, point?.
+He was being mean at that part, point?
 But I'm sure he's gonna turn around at some point, as well and.
 I love the thought of being with you.
 Or maybe it's the thought of not being so alone.
