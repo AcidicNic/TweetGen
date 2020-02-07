@@ -27,12 +27,12 @@
 <!--                        {{ word }}-->
 <!--                    {% endfor %}-->
 <!--                </p>-->
-                <p style="padding-left: 20%; padding-right: 20%"> <strong>Random Sentence: </strong><br>
+                <p style="padding-left: 20%; padding-right: 20%"> <strong>Random Sentence:</strong><br>
                     {{ generator.rand_sentence }}
                 </p>
 <!--                <p style="padding-left: 20%; padding-right: 20%">{{ generator.markov_dict }}</p>-->
                 {% if generator.intent == 'REFRESH' %}
-                <button class="btn btn-primary" type='submit' form='tweet_form'>Tweet</button>
+                    <button class="btn btn-primary" type='submit' form='tweet_form'>Tweet</button>
                 {% elif generator.intent == 'TWEET' %}
                     <button class="btn btn-success" onclick="location.href='/favs';">View Tweet</button>
                 {% endif %}
@@ -46,5 +46,6 @@
 
     <form method='POST' id='tweet_form' action='/generator/{{ generator.url }}'>
         <input type='hidden' name='intent' value='TWEET'>
+        <input type="hidden" name="random_sentence_lol" value="{{ generator.rand_sentence }}">
     </form>
 {% endblock %}

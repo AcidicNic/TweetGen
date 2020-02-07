@@ -63,7 +63,7 @@ def cuco_music():
     if request.form.get('intent') == 'TWEET':
         # tweet_sentence(trip_gen['rand_sentence'])
         fav_tweet = {
-            'tweet': cuco_gen['rand_sentence'],
+            'tweet': request.form.get('random_sentence_lol'),
             'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
             'name': cuco_gen['name'],
             'gen_url': cuco_gen['url']
