@@ -31,7 +31,7 @@ cuco_hist = Histogram(source_text.cuco)
 cuco_gen = {
     'url': 'cuco',
     'name': "Cuco",
-    'description': "Generates random Cuco bars!"
+    'description': "Generates Cuco bars!"
 }
 
 # hobo johnson histogram
@@ -39,15 +39,15 @@ hobo_hist = Histogram(source_text.hobo_johnson)
 hobo_gen = {
     'url': 'hobo_johnson',
     'name': "Hobo Johnson",
-    'description': ":)"
+    'description': "Generates Hobo Johnson bars!"
 }
 
 # reddit trip report histogram
 trip_hist = Histogram(source_text.reddit_trip_reports)
 trip_gen = {
     'url': 'trip_report',
-    'name': "Trip Reports",
-    'description': ":)"
+    'name': "Trip Report",
+    'description': "Generates trip reports :)"
 }
 gens = [cuco_gen, hobo_gen, trip_gen]
 
