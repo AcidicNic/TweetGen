@@ -61,10 +61,10 @@ def show_all():
 @app.route('/generator/cuco', methods=['POST', 'GET'])
 def cuco_music():
     if request.form.get('intent') == 'TWEET':
-        # tweet_sentence(trip_gen['rand_sentence'])
-        print('favoriting tweet')
+        new_tweet = request.form.get('random_sentence_lol')
+        # tweet_sentence(new_tweet)
         fav_tweet = {
-            'tweet': request.form.get('random_sentence_lol'),
+            'tweet': request.form.get('new_tweet'),
             'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
             'name': cuco_gen['name'],
             'gen_url': cuco_gen['url']
@@ -73,7 +73,6 @@ def cuco_music():
         cuco_gen['intent'] = 'TWEET'
     else:
         cuco_gen['rand_sentence'] = random_sentence(cuco_hist.markov_chain)
-        print("new sentence")
         cuco_gen['intent'] = 'REFRESH'
     return render_template('show_generator.html', generator=cuco_gen, title=cuco_gen['name'])
 
@@ -81,9 +80,10 @@ def cuco_music():
 @app.route('/generator/trip_report', methods=['POST', 'GET'])
 def trip_report():
     if request.form.get('intent') == 'TWEET':
-        # tweet_sentence(trip_gen['rand_sentence'])
+        new_tweet = request.form.get('random_sentence_lol')
+        # tweet_sentence(new_tweet)
         fav_tweet = {
-            'tweet': trip_gen['rand_sentence'],
+            'tweet': new_tweet,
             'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
             'name': trip_gen['name'],
             'gen_url': trip_gen['url']
@@ -99,9 +99,10 @@ def trip_report():
 @app.route('/generator/hobo_johnson', methods=['POST', 'GET'])
 def hobo_johnson():
     if request.form.get('intent') == 'TWEET':
-        # tweet_sentence(hobo_gen['rand_sentence'])
+        new_tweet = request.form.get('random_sentence_lol')
+        # tweet_sentence(new_tweet)
         fav_tweet = {
-            'tweet': hobo_gen['rand_sentence'],
+            'tweet': new_tweet,
             'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
             'name': hobo_gen['name'],
             'gen_url': hobo_gen['url']
