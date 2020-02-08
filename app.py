@@ -62,6 +62,7 @@ def show_all():
 def cuco_music():
     if request.form.get('intent') == 'TWEET':
         # tweet_sentence(trip_gen['rand_sentence'])
+        print('favoriting tweet')
         fav_tweet = {
             'tweet': request.form.get('random_sentence_lol'),
             'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
@@ -72,6 +73,7 @@ def cuco_music():
         cuco_gen['intent'] = 'TWEET'
     else:
         cuco_gen['rand_sentence'] = random_sentence(cuco_hist.markov_chain)
+        print("new sentence")
         cuco_gen['intent'] = 'REFRESH'
     return render_template('show_generator.html', generator=cuco_gen, title=cuco_gen['name'])
 
