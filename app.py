@@ -1,30 +1,84 @@
-import pymongo
-from bson import ObjectId
 from flask import Flask, render_template, request, redirect, url_for
+from apscheduler.schedulers.background import BackgroundScheduler
 from pymongo import MongoClient
+from datetime import datetime, timedelta
+from bson import ObjectId
+import pymongo
+import tweepy
 import os
-from datetime import datetime
 
+from secret import api_key, api_secret, access_token, access_token_secret
 from histogram import *
 import source_text
 
-# import tweepy
-#
-# # Authenticate to Twitter
-# auth = tweepy.OAuthHandler("CONSUMER_KEY", "CONSUMER_SECRET")
-# auth.set_access_token("ACCESS_TOKEN", "ACCESS_TOKEN_SECRET")
-#
-# # Creating Tweepy API object
-# tweet = tweepy.API(auth)
+# Authenticate to Twitter
+auth = tweepy.OAuthHandler(api_key, api_secret)
+auth.set_access_token(access_token, access_token_secret)
+# Creating Tweepy API object
+tweet = tweepy.API(auth)
 
 app = Flask(__name__)
 
 host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/TweetGen')
 client = MongoClient(host=f'{host}?retryWrites=false')
 db = client.get_default_database()
-
-# generators = db.generators
 favorites = db.favorites
+# generators = db.generators
+
+
+# Create a tweet
+def tweet_sentence(random_sentence_lol):
+    try:
+        just_tweeted = tweet.update_status(random_sentence_lol)
+        return just_tweeted.id_str
+    except:
+        return "ERR"
+
+
+def tweet_it():
+    """ Function for test purposes. """
+    for faved_tweet in favorites.find():
+        if "tweeted" not in faved_tweet:
+            new_id = tweet_sentence(faved_tweet['tweet'])
+            if new_id == 'ERR':
+                faved_tweet["tweeted"] = False
+            else:
+                faved_tweet["status_id"] = new_id
+                faved_tweet["tweeted"] = True
+            print(new_id)
+            favorites.update_one(
+                {'_id': faved_tweet["_id"]},
+                {'$set': faved_tweet})
+            break
+        else:
+            print('already tweeted')
+
+
+auto_tweet = BackgroundScheduler(daemon=True)
+one_min = datetime.now() + timedelta(minutes=1)
+auto_tweet.add_job(tweet_it, 'interval', hours=24, next_run_time=one_min)
+auto_tweet.start()
+
+
+# def url_for_tweets():
+#     continue_search = False
+#     for faved_tweet in favorites.find():
+#         if "status_id" not in faved_tweet:
+#             continue_search = True
+#     if continue_search:
+#         for status_o in tweepy.Cursor(tweet.user_timeline, screen_name='@nicc_bot', tweet_mode="extended").items():
+#             status = status_o._json
+#             for faved_tweet in favorites.find():
+#                 if "status_id" not in faved_tweet:
+#                     if faved_tweet['tweet'] == status["full_text"]:
+#                         faved_tweet["status_id"] = status["id_str"]
+#                         favorites.update_one(
+#                             {'_id': faved_tweet["_id"]},
+#                             {'$set': faved_tweet})
+#                         print(f"***Found id for: {status['full_text']}***")
+#     else:
+#         print("all tweets found have ID")
+#     print('done')
 
 # hobo johnson histogram
 cuco_hist = Histogram(source_text.cuco)
@@ -61,10 +115,8 @@ def show_all():
 @app.route('/generator/cuco', methods=['POST', 'GET'])
 def cuco_music():
     if request.form.get('intent') == 'TWEET':
-        new_tweet = request.form.get('random_sentence_lol')
-        # tweet_sentence(new_tweet)
         fav_tweet = {
-            'tweet': request.form.get('new_tweet'),
+            'tweet': cuco_gen['rand_sentence'],
             'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
             'name': cuco_gen['name'],
             'gen_url': cuco_gen['url']
@@ -80,10 +132,8 @@ def cuco_music():
 @app.route('/generator/trip_report', methods=['POST', 'GET'])
 def trip_report():
     if request.form.get('intent') == 'TWEET':
-        new_tweet = request.form.get('random_sentence_lol')
-        # tweet_sentence(new_tweet)
         fav_tweet = {
-            'tweet': new_tweet,
+            'tweet': trip_gen['rand_sentence'],
             'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
             'name': trip_gen['name'],
             'gen_url': trip_gen['url']
@@ -99,10 +149,8 @@ def trip_report():
 @app.route('/generator/hobo_johnson', methods=['POST', 'GET'])
 def hobo_johnson():
     if request.form.get('intent') == 'TWEET':
-        new_tweet = request.form.get('random_sentence_lol')
-        # tweet_sentence(new_tweet)
         fav_tweet = {
-            'tweet': new_tweet,
+            'tweet': hobo_gen['rand_sentence'],
             'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
             'name': hobo_gen['name'],
             'gen_url': hobo_gen['url']
@@ -124,11 +172,6 @@ def favorite():
 def delete_fav(tweet_id):
     favorites.delete_one({'_id': ObjectId(tweet_id)})
     return redirect(url_for('favorite'))
-
-
-# Create a tweet
-def tweet_sentence(random_sentence_lol):
-    tweet.update_status(random_sentence_lol)
 
 
 # @app.route('/generator', methods=['POST', 'GET'])

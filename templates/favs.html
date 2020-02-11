@@ -21,6 +21,15 @@
                         <form method='POST' id='delete_fav' action='/favs/{{ tweet._id }}/delete'>
                             <input type='hidden' name='_method' value='DELETE'>
                             <button class="btn btn-danger" type='submit'>Delete</button>
+
+                        <div class="align-self-end">
+                            {% if tweet.tweeted %}
+                                <p class="card-text">Queueing</p>
+                            {% else %}
+                                <a class="btn btn-light" href="https://twitter.com/nicc_bot/{{ tweet.status_id }}">Already Tweeted!</a>
+                                <p class="card-text">Already Tweeted! @nicc_bot</p>
+                            {% endif %}
+                        </div>
                         </form>
 
                         <button class="btn btn-light" onclick="location.href='/generator/{{ tweet.gen_url }}';">- {{ tweet.name }} Generator</button>

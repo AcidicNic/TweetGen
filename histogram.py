@@ -5,6 +5,11 @@ from sys import argv, exit
 import time
 
 
+''' !!!
+make different markov and word counting fxn to include whitespace and recreate a whole song, with the syntax and everything.
+!!! '''
+
+
 class Histogram:
     def __init__(self, source_text, flag=''):
         self.word_list = None
