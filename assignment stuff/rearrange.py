@@ -15,11 +15,13 @@ def rearrange(words_list):
 
 
 def reverse_sentences(sentence):
+    """ Stretch Challenge: reverses the words in a sentence"""
     sentence.reverse()
     return " ".join(sentence)
 
 
 def reverse_words(words):
+    """ Stretch Challenge: reverses the characters in a string"""
     for i in range(len(words)):
         words[i] = words[i][::-1]
     return " ".join(words)
