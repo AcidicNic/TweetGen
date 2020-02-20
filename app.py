@@ -3,7 +3,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 from bson import ObjectId
-import pymongo
 import tweepy
 import os
 
@@ -37,25 +36,20 @@ def tweet_sentence(random_sentence_lol):
 
 def tweet_it():
     """ Function for test purposes. """
-    for faved_tweet in favorites.find():
+    for faved_tweet in favorites.find({'status_id': {"$exists": False}}):
         if "tweeted" not in faved_tweet:
             new_id = tweet_sentence(faved_tweet['tweet'])
-            if new_id == 'ERR':
-                faved_tweet["tweeted"] = False
-            else:
+            if not new_id == 'ERR':
                 faved_tweet["status_id"] = new_id
                 faved_tweet["tweeted"] = True
-            print(new_id)
-            favorites.update_one(
-                {'_id': faved_tweet["_id"]},
-                {'$set': faved_tweet})
-            break
-        else:
-            print('already tweeted')
+                favorites.update_one(
+                    {'_id': faved_tweet["_id"]},
+                    {'$set': faved_tweet})
+                return
 
 
 auto_tweet = BackgroundScheduler(daemon=True)
-one_min = datetime.now() + timedelta(minutes=1)
+one_min = datetime.now() + timedelta(minutes=2)
 auto_tweet.add_job(tweet_it, 'interval', hours=24, next_run_time=one_min)
 auto_tweet.start()
 
