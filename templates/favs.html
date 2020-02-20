@@ -18,15 +18,15 @@
                     <h4 class="card-title">{{ tweet.tweet }}</h4>
                     <div class="d-flex justify-content-between">
 
-                        <form method='POST' id='delete_fav' action='/favs/{{ tweet._id }}/delete'>
-                            <input type='hidden' name='_method' value='DELETE'>
-                            <button class="btn btn-danger" type='submit'>Delete</button>
+<!--                        <form method='POST' id='delete_fav' action='/favs/{{ tweet._id }}/delete'>-->
+<!--                            <input type='hidden' name='_method' value='DELETE'>-->
+<!--                            <button class="btn btn-danger" type='submit'>Delete</button>-->
 
                         <div class="align-self-end">
-                            {% if tweet.tweeted %}
-                                <p class="card-text">Queueing</p>
-                            {% else %}
+                            {% if tweet.status_id %}
                                 <a class="btn btn-light" href="https://twitter.com/nicc_bot/status/{{ tweet.status_id }}">Already Tweeted!</a>
+                            {% else %}
+                                <p class="card-text">Queueing</p>
                             {% endif %}
                         </div>
                         </form>

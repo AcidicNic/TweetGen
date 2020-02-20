@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from apscheduler.schedulers.background import BackgroundScheduler
-from pymongo import MongoClient, DESCENDING
+import pymongo
 from datetime import datetime, timedelta
 from bson import ObjectId
 import tweepy
@@ -19,7 +19,7 @@ tweet = tweepy.API(auth)
 app = Flask(__name__)
 
 host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/TweetGen')
-client = MongoClient(host=f'{host}?retryWrites=false')
+client = pymongo.MongoClient(host=f'{host}?retryWrites=false')
 db = client.get_default_database()
 favorites = db.favorites
 # generators = db.generators
@@ -78,16 +78,18 @@ auto_tweet.start()
 cuco_hist = Histogram(source_text.cuco)
 cuco_gen = {
     'url': 'cuco',
-    'name': "Cuco",
-    'description': "Generates Cuco bars!"
+    'name': 'Cuco',
+    'description': 'Generates Cuco bars!',
+    'rand_sentence': random_sentence(cuco_hist.markov_chain)
 }
 
 # hobo johnson histogram
 hobo_hist = Histogram(source_text.hobo_johnson)
 hobo_gen = {
     'url': 'hobo_johnson',
-    'name': "Hobo Johnson",
-    'description': "Generates Hobo Johnson bars!"
+    'name': 'Hobo Johnson',
+    'description': 'Generates Hobo Johnson bars!',
+    'rand_sentence': random_sentence(hobo_hist.markov_chain)
 }
 
 # reddit trip report histogram
@@ -95,7 +97,8 @@ trip_hist = Histogram(source_text.reddit_trip_reports)
 trip_gen = {
     'url': 'trip_report',
     'name': "Trip Report",
-    'description': "Generates trip reports :)"
+    'description': "Generates trip reports :)",
+    'rand_sentence': random_sentence(trip_hist.markov_chain)
 }
 gens = [cuco_gen, hobo_gen, trip_gen]
 
@@ -159,7 +162,7 @@ def hobo_johnson():
 
 @app.route('/favs')
 def favorite():
-    return render_template('favs.html', tweets=favorites.find().sort("time",DESCENDING), title="Favorites!")
+    return render_template('favs.html', tweets=favorites.find().sort("time", pymongo.DESCENDING), title="Favorites!")
 
 
 @app.route('/favs/<tweet_id>/delete', methods=['POST'])
