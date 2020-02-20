@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from apscheduler.schedulers.background import BackgroundScheduler
-from pymongo import MongoClient
+from pymongo import MongoClient, DESCENDING
 from datetime import datetime, timedelta
 from bson import ObjectId
 import tweepy
@@ -159,7 +159,7 @@ def hobo_johnson():
 
 @app.route('/favs')
 def favorite():
-    return render_template('favs.html', tweets=favorites.find().sort("time",pymongo.DESCENDING), title="Favorites!")
+    return render_template('favs.html', tweets=favorites.find().sort("time",DESCENDING), title="Favorites!")
 
 
 @app.route('/favs/<tweet_id>/delete', methods=['POST'])
