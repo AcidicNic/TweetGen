@@ -26,7 +26,7 @@ class HashTable(object):
 
     def keys(self):
         """Return a list of all keys in this hash table.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n^2) because for each bucket we loop through each item! nested loops"""
         # Collect all keys in each bucket
         all_keys = []
         for bucket in self.buckets:
@@ -36,13 +36,16 @@ class HashTable(object):
 
     def values(self):
         """Return a list of all values in this hash table.
-        TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Loop through all buckets
-        # TODO: Collect all values in each bucket
+        Running time: O(n^2) nested loops"""
+        vals = []
+        for bucket in self.buckets:
+            for key, value in bucket.items():
+                vals.append(value)
+        return vals
 
     def items(self):
         """Return a list of all items (key-value pairs) in this hash table.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n^2) nested loops"""
         # Collect all pairs of key-value entries in each bucket
         all_items = []
         for bucket in self.buckets:
@@ -51,7 +54,7 @@ class HashTable(object):
 
     def length(self):
         """Return the number of key-value entries by traversing its buckets.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n) more buckets, more iterations"""
         tot_len = 0
         for bucket in self.buckets:
             tot_len += len(bucket.items())
@@ -59,7 +62,7 @@ class HashTable(object):
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n) because LinkedList.find_by_key() is O(n)"""
         b_i = self._bucket_index(key)
         if self.buckets[b_i].find_by_key(key) is not None:
             return True
@@ -67,7 +70,7 @@ class HashTable(object):
 
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n) because LinkedList.find_by_key() is O(n)"""
         b_i = self._bucket_index(key)
         pair = self.buckets[b_i].find_by_key(key)
         if pair is not None:
@@ -76,27 +79,23 @@ class HashTable(object):
 
     def set(self, key, value):
         """Insert or update the given key with its associated value.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n) LinkedList.find_by_key() and LinkedList.update() are O(n)"""
         b_i = self._bucket_index(key)
-        pair = self.buckets[b_i].find_by_key(key)
+        pair = self.buckets[b_i].find_by_key(key)   # O(n)
         if pair is None:
-            self.buckets[b_i].append([key, value])
+            self.buckets[b_i].append((key, value))  # O(1)
         else:
-            self.buckets[b_i].update(pair, [key, value])
+            self.buckets[b_i].update(pair, (key, value))  # O(n)
 
     def delete(self, key):
         """Delete the given key from this hash table, or raise KeyError.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n) because of find_by_key() """
         b_i = self._bucket_index(key)
         pair = self.buckets[b_i].find_by_key(key)
-        # print(pair)
-        # print(self.buckets[b_i])
-        # print(self.buckets[b_i].head)
-        # print(self.buckets[b_i].tail)
         if pair is not None:
             self.buckets[b_i].delete(pair)
         else:
-            raise KeyError('Key not found: {}'.format(key))
+            raise KeyError(f'Key not found: {key}')
 
 
 def test_hash_table():

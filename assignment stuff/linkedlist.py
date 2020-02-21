@@ -33,6 +33,13 @@ class LinkedList(object):
         """Return a string representation of this linked list."""
         return 'LinkedList({!r})'.format(self.items())
 
+    def __iter__(self):
+        """Stretch Challenge: LinkedList object is iterable!"""
+        node = self.head
+        while node is not None:
+            yield node
+            node = node.next
+
     def items(self):
         """Return a list (dynamic array) of all items in this linked list.
         Best and worst case running time: O(n) for n items in the list (length)
@@ -54,20 +61,19 @@ class LinkedList(object):
 
     def length(self):
         """Return the length of this linked list by traversing its nodes.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n) looping through all nodes"""
         if self.is_empty():
             return 0
-        node = self.head
+        node = self.head.next
         len = 1
-        while node.next is not None:
+        while node is not None:
             len += 1
             node = node.next
         return len
 
-
     def append(self, item):
         """Insert the given item at the tail of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(1) bc it's just a conditional"""
         next_node = Node(item)
         # if List is empty:
         if self.is_empty():
@@ -79,7 +85,7 @@ class LinkedList(object):
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(1) it's just a conditional"""
         new_node = Node(item)
         # if List is empty:
         if self.is_empty():
@@ -92,8 +98,8 @@ class LinkedList(object):
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
         Return None if nothing is found.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        Best case running time: O(1) if n is the head node.
+        Worst case running time: O(n) because looping through all nodes"""
         node = self.head
         while node is not None:
             if quality(node.data):
@@ -104,8 +110,8 @@ class LinkedList(object):
     def find_by_key(self, key):
         """ Assuming node.data is a (key, value) pair: return node.data if the given key matches.
             Return None if nothing is found.
-        TODO: Best case running time: O(1) Why and under what conditions?
-        TODO: Worst case running time: O(n) Why and under what conditions?"""
+        Best case running time: O(1) if head node contains the key
+        Worst case running time: O(n) bc looping through each node until key matches."""
         node = self.head
         while node is not None:
             if node.data[0] == key:
@@ -115,8 +121,8 @@ class LinkedList(object):
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        Best case running time: O(1) if item belongs to head node
+        Worst case running time: O(n) looping though each node."""
         node = self.head
         prev_node = None
         while node is not None:
@@ -142,9 +148,9 @@ class LinkedList(object):
         raise ValueError(f'Item not found: {item}')
 
     def update(self, item, new_item):
-        """Delete the given item from this linked list, or raise ValueError.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        """Stretch Challenge: Delete the given item from this linked list, or raise ValueError.
+        Best case running time: O(1) if item belongs to the head node
+        Worst case running time: O(n) bc looping through all nodes until item is found."""
         node = self.head
         while node is not None:
             if node.data == item:

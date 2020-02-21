@@ -1,8 +1,7 @@
 #!python
-
+""" Stretch Challenge!"""
 
 class Node_d(object):
-
     def __init__(self, data):
         """Initialize this node with the given data."""
         self.data = data
@@ -15,9 +14,8 @@ class Node_d(object):
 
 
 class DoublyLinkedList(object):
-
     def __init__(self, items=None):
-        """Initialize this linked list and append the given items, if any."""
+        """Initialize this doubly linked list and append the given items, if any."""
         self.head = None  # First node
         self.tail = None  # Last node
         # Append given items
@@ -26,16 +24,16 @@ class DoublyLinkedList(object):
                 self.append(item)
 
     def __str__(self):
-        """Return a formatted string representation of this linked list."""
+        """Return a formatted string representation of this doubly linked list."""
         items = ['({!r})'.format(item) for item in self.items()]
         return '[{}]'.format(' <-> '.join(items))
 
     def __repr__(self):
-        """Return a string representation of this linked list."""
+        """Return a string representation of this doubly linked list."""
         return 'LinkedList({!r})'.format(self.items())
 
     def items(self):
-        """Return a list (dynamic array) of all items in this linked list.
+        """Return a list (dynamic array) of all items in this doubly linked list.
         Best and worst case running time: O(n) for n items in the list (length)
         because we always need to loop through all n nodes to get each item."""
         items = []  # O(1) time to create empty list
@@ -55,7 +53,7 @@ class DoublyLinkedList(object):
 
     def length(self):
         """Return the length of this linked list by traversing its nodes.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n) iterating therough every node."""
         if self.is_empty():
             return 0
         node = self.head
@@ -67,7 +65,7 @@ class DoublyLinkedList(object):
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(1) just a conditional!"""
         next_node = Node_d(item)
         # if List is empty:
         if self.is_empty():
@@ -80,7 +78,7 @@ class DoublyLinkedList(object):
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(1) just a conditional"""
         new_node = Node_d(item)
         # if List is empty:
         if self.is_empty():
@@ -94,8 +92,8 @@ class DoublyLinkedList(object):
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
         Return None if nothing is found.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        Best case running time: O(1) head node satisfies the quality.
+        Worst case running time: O(n) iterating through every node."""
         node = self.head
         while node is not None:
             if quality(node.data):
@@ -106,8 +104,8 @@ class DoublyLinkedList(object):
     def find_by_key(self, key):
         """ Assuming node.data is a (key, value) pair: return node.data if the given key matches.
             Return None if nothing is found.
-        TODO: Best case running time: O(1) Why and under what conditions?
-        TODO: Worst case running time: O(n) Why and under what conditions?"""
+        Best case running time: O(1) head node
+        Worst case running time: O(n) iterates through nodes"""
         node = self.head
         while node is not None:
             if node.data[0] == key:
@@ -117,8 +115,8 @@ class DoublyLinkedList(object):
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        Best case running time: O(1) head node
+        Worst case running time: O(n) iterates through nodes"""
         node = self.head
         prev_node = None
         while node is not None:
@@ -147,8 +145,8 @@ class DoublyLinkedList(object):
 
     def update(self, item, new_item):
         """Delete the given item from this linked list, or raise ValueError.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        Best case running time: O(1) head node
+        Worst case running time: O(n) iterates through nodes"""
         node = self.head
         while node is not None:
             if node.data == item:
@@ -169,11 +167,6 @@ def test_doubly_linked_list():
         print('append({!r})'.format(item))
         ll.append(item)
         print('list: {}'.format(ll))
-
-    # print('\nlength: {}'.format(ll.length()))
-    # ll.prepend('0')
-    # print("prepend('0')")
-    # print('list: {}'.format(ll))
 
     print('head: {}'.format(ll.head))
     print('tail: {}'.format(ll.tail))
