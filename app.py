@@ -45,12 +45,11 @@ def tweet_it():
                 favorites.update_one(
                     {'_id': faved_tweet["_id"]},
                     {'$set': faved_tweet})
-                return
+            return None
 
 
 auto_tweet = BackgroundScheduler(daemon=True)
-one_min = datetime.now() + timedelta(minutes=2)
-auto_tweet.add_job(tweet_it, 'interval', hours=24, next_run_time=one_min)
+auto_tweet.add_job(tweet_it, 'interval', hours=24, next_run_time=datetime.now()+timedelta(minutes=2))
 auto_tweet.start()
 
 
