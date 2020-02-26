@@ -1,8 +1,11 @@
 from operator import itemgetter
-from random import randint, random
+from random import random
 from re import sub
-from sys import argv, exit
+from sys import exit
 import time
+from prettytable import PrettyTable
+from statistics import mean
+import source_text
 
 
 ''' !!!
@@ -88,29 +91,39 @@ def get_histogram(word_list, type="SD", freq_dict=None):
         return sorted_tuples
 
 
-def bulk_sample(histogram, tokens, limit):
-    result = []
-    for _ in range(limit):
-        result.append(sample_by_frequency(histogram, tokens))
-    return result
-
-
 def markov(word_list, word_pairs=None):
+    """ This is the data structure we need to actually generate random sentences!
+        each word is added to a dictionary
+        '__start__' and '__end__' are strings I use to tell my program where it's okay to start and end sentences!
+            You'll notice that the value for '__end__' is a list, not a nested list of word & count pairs.
+            This list contains words that are at the end of their sentence
+
+
+        {
+            '__start__': [[<str: next_word>, <int: count>], [<str: next_word>, <int: count>]],
+            word: [[word, count], [word, count], [word, count], [word, count]],
+            word: [['__end__', 1], [word, count]],
+            '__end__': [word, word, word]
+        }
+    """
     if word_pairs is None:
         word_pairs = {}
     word_pairs['__start__'] = [word_list[0]]
-    # word_pairs['__end__'] = [word_list[-1]]
-    __end__ = ['__end__', word_list[-1]]
+    word_pairs[word_list[-1]] = ['__end__']
+    __end__ = [word_list[-1]]
 
     for i in range(1, len(word_list)):
-        if word_list[i-1][-1] in ['.', '?', '!', '"']:
+        word = word_list[i-1]
+        next_word = word_list[i]
+        if word[-1] in ['.', '?', '!', '"']:
             __end__.append(word_list[i-1])
-            word_pairs['__start__'].append(word_list[i])
+            word_pairs['__start__'].append(next_word)
+            next_word = '__end__'
 
-        if word_list[i-1] in word_pairs.keys():
-            word_pairs[word_list[i-1]].append(word_list[i])
+        if word in word_pairs.keys():
+            word_pairs[word].append(next_word)
         else:
-            word_pairs[word_list[i-1]] = [word_list[i]]
+            word_pairs[word] = [next_word]
     for word in word_pairs.keys():
         word_pairs[word] = get_histogram(word_pairs[word], 'SL')
     word_pairs['__end__'] = __end__
@@ -128,10 +141,10 @@ def random_sentence(markov_o):
                 next_word = '__end__'
             if next_word is not '__end__':
                 sentence.append(next_word)
-            if next_word in markov['__end__']:
+            else:
                 return " ".join(sentence)
     except Exception as e:
-        print("Error: "+ repr(e))
+        print("Error: " + repr(e))
         return 0
 
 
@@ -157,18 +170,15 @@ def frequency(histogram, word):
         return 0
 
 
-def bulk_frequency(histogram, num):
+def find_frequency(histogram, num):
     ''' finds all words that have the specified count '''
-    print(f"All words with the count {num}:")
     count = 0
     words = []
     for word, freq in dict(histogram).items():
         if freq == num:
             count += 1
-            print(f"{count}.| {word}")
             words.append(word)
     if count == 0:
-        print(f"No words found.")
         return None
     return words
 
@@ -189,88 +199,185 @@ def get_total_tokens(histogram):
         return tokens
 
 
-def top_count(histogram, top_num=0):
+def top_count(histogram, top_num=5):
     ''' convert dict to list of tuples (still ordered by highest to lowest frequency)
-            prints the top {top_num} words and their frequencies. '''
-    '''
-    USE THIS TO OPTIMIZE:
-    >>> d = {'a': 1, 'b': 2}
-    >>> dki = d.iterkeys()
-    >>> dki.next()
-    'a'
-    >>> dki.next()
-    'b'
-    >>> dki.next()
-    Traceback (most recent call last):
-      File "<interactive input>", line 1, in <module>
-    StopIteration
-    '''
-
-    try:
-        if top_num == -1:
-            top_num = len(histogram)
-            print(f"All {top_num} words:")
-        else:
-            print(f"Top {top_num} words:")
-        temp_histogram = list(histogram.items())
-        if 0 < top_num < len(temp_histogram):
-            for i in range(top_num):
-                print(f"{i+1}.| {temp_histogram[i][0]}: {frequency(histogram, temp_histogram[i][0])}")
-        else:
-            for i in range(len(temp_histogram)):
-                print(f"{i + 1}.| {temp_histogram[i][0]}: {frequency(histogram, temp_histogram[i][0])}")
-    except Exception as e:
-        print(e)
-        print("*** Invalid histogram ***")
-        exit()
-
-
-def sample_by_frequency(histogram, tokens):
-    selection = random()
-    floats = [0]
-    if isinstance(histogram, dict):
-        for word, count in histogram.items():
-            floats.append((count / tokens) + floats[-1])
-            if floats[-2] <= selection < floats[-1]:
-                return word
+        dictogram: histogram
+        returns a prettytable the top {top_num} words and their frequencies. '''
+    t = PrettyTable()
+    if 0 > top_num or len(histogram) <= top_num:
+        top_num = len(histogram)
+        t.title = f'All {top_num} Words'
     else:
-        for i in range(len(histogram)):
-            floats.append((histogram[i][1] / tokens) + floats[-1])
-            if floats[-2] <= selection < floats[-1]:
-                return histogram[i][0]
+        t.title = f'Top {top_num} Words'
+    t.field_names = ['--', 'Word', 'n']
+    t.align['Word'] = 'l'
+    i = 1
+    for k, v in histogram.items():
+        t.add_row([f'{i}.', k, v])
+        i += 1
+        if i > top_num:
+            return t
+
+
+def sample_by_frequency(histogram, tokens, num=1):
+    words = []
+    floats = [0]
+    if num > 1:
+        selections = []
+        for i in range(num):
+            selections.append(random())
+        selections.sort(reverse=True)
+        if isinstance(histogram, dict):
+            for word, count in histogram.items():
+                floats.append((count / tokens) + floats[-1])
+                while floats[-2] <= selections[-1] < floats[-1]:
+                    words.append(word)
+                    selections.pop()
+                    if len(selections) == 0:
+                        return words
+        else:
+            for i in range(len(histogram)):
+                floats.append((histogram[i][1] / tokens) + floats[-1])
+                while floats[-2] <= selections[-1] < floats[-1]:
+                    words.append(histogram[i][0])
+                    selections.pop()
+                    if len(selections) == 0:
+                        return words
+    else:
+        selection = random()
+        if isinstance(histogram, dict):
+            for word, count in histogram.items():
+                floats.append((count / tokens) + floats[-1])
+                if floats[-2] <= selection < floats[-1]:
+                    return word
+        else:
+            for i in range(len(histogram)):
+                floats.append((histogram[i][1] / tokens) + floats[-1])
+                while floats[-2] <= selection < floats[-1]:
+                    return histogram[i][0]
+
+
+''' Test Helpers '''
+
+
+def print_title(title):
+    """ Prints pretty titles """
+    print(f'{title}:\n-{"-" * len(title)}')
+
+
+def compare_hists(actual, a_tokens, s_tokens=100000, only_stats=False):
+    """ Gives you some fun stats to test sample_by_frequency()
+
+        Parameters:
+            actual (dict histogram): the histogram you want to randomly sample from.
+            a_tokens (int): total tokens of the given histogram
+            s_tokens (int): # of words you'd like to sample.
+            only_stats (bool): If true it will not return the list of each word with it's percent error, only the
+                               total sampled (s_tokens), the histogram's total tokens (a_tokens), and the avg % error.
+
+        Returns:
+            str: pretty table of stats.
+
+    """
+    word_list = sample_by_frequency(actual, a_tokens, s_tokens)
+    sample = Histogram(word_list).histogram
+    st_to_at = s_tokens/a_tokens
+
+    percent_errs = []
+    if only_stats:
+        for k, v in sample.items():
+            exact = actual[k] * st_to_at
+            percent_errs.append((v - exact) / exact * 100)
+        stats = PrettyTable(['Unique Words in Source', len(actual)], hrules=True)
+        stats.title = f"{s_tokens} words sampled by freq"
+        stats.add_row(['Avg % Error', f"{mean(percent_errs):,.2f}%"])
+        return stats
+    else:
+        t = PrettyTable(['Word', 'Exact', 'Sampled', "% Error"])
+        t.title = f"{s_tokens} words sampled by freq"
+        t.align['% Error'] = 'r'
+        for k, v in sample.items():
+            exact = actual[k] * st_to_at
+            percent_err = (v - exact) / exact * 100
+            t.add_row([k, int(exact), v, f"{percent_err:,.2f}%"])
+            percent_errs.append(percent_err)
+        stats = PrettyTable(['Unique Words in Source', len(actual)], hrules=True)
+        stats.add_row(['Avg % Error', f"{mean(percent_errs):,.2f}%"])
+        return f"{t}\n{stats}"
+
+
+''' Tests / Demonstrations '''
+
+
+def cuco_test():
+    start = time.time()
+    cuco = Histogram(source_text.cuco)
+    print_title('Cuco Songs')
+    print(f"unique words: {unique_words(cuco.histogram)}")
+
+    print(top_count(cuco.histogram, 3))
+    print(f"Frequency of the word 'you': {frequency(cuco.histogram, 'you')}")
+    print(f"Frequency of the word 'wtf': {frequency(cuco.histogram, 'wtf')}")
+    print(f"\nAll words with count 7: {', '.join(find_frequency(cuco.histogram, 7))}")
+    print(f"Frequency of the word 'like': {frequency(cuco.histogram, 'like')}")
+
+    print(compare_hists(cuco.histogram, cuco.total_tokens, 100000, True))
+
+    print('\n5 Random "Sentences"!')
+    for sentence in bulk_sentences(cuco.markov_chain, 5):
+        print(f"\t{sentence}")
+
+    print(f"Cuco Benchmark: {time.time() - start:,.3f} seconds")
+
+
+def woodchuck_test():
+    start = time.time()
+    woodchuck = Histogram('How much wood would a woodchuck chuck if a woodchuck could chuck wood? A woodchuck would '
+                          'chuck as much wood as a woodchuck could chuck if a woodchuck could chuck wood.')
+    print_title("How much wood could a Woodchuck chuck?")
+    print(f"unique words: {unique_words(woodchuck.histogram)}")
+
+    print("Histogram Types:")
+    print(f"List of Lists: {get_histogram(woodchuck.word_list, 'SL')}")
+    print(f"List of Tuples: {get_histogram(woodchuck.word_list, 'ST')}")
+    print(f"Dictionary: {woodchuck.histogram}")
+
+    print(f"\nMarkov Chain: {woodchuck.markov_chain}")
+
+    print(top_count(woodchuck.histogram))
+    # print(f"Frequency of the word 'woodchuck': {frequency(woodchuck.histogram, 'woodchuck')}")
+
+    # print(compare_hists(woodchuck.histogram, woodchuck.total_tokens))
+
+    print(f"Woodchuck Benchmark: {time.time() - start:,.2f} seconds")
+
+
+def fish_test():
+    start = time.time()
+    fish_txt = 'One Fish Two Fish Red Fish Blue Fish'
+    print_title(fish_txt)
+    fish = Histogram(fish_txt.lower())
+
+    # print("Histogram Types:")
+    # print(f"List of Lists: {get_histogram(fish.word_list, 'SL')}")
+    # print(f"List of Tuples: {get_histogram(fish.word_list, 'ST')}")
+    print(f"Dictionary: {fish.histogram}")
+
+    # print(top_count(fish.histogram, -1))
+    # print(f"Frequency of the word 'fish': {frequency(fish.histogram, 'fish')}")
+    # print(f"Frequency of the word 'the': {frequency(fish.histogram, 'the')}")
+    # print(f"Markov Chain:   {fish.markov_chain}")
+
+    print(compare_hists(fish.histogram, fish.total_tokens))
+
+    print(f"Fish Benchmark: {time.time() - start:,.2f} seconds")
+
 
 if __name__ == '__main__':
+    fish_test()
+    print('\n')
+    woodchuck_test()
+    print('\n')
+    cuco_test()
 
-    # start = time.time()
-    mushies = Histogram('source_text', 'f')
-    print(random_sentence(mushies.markov_chain))
-    # print('Mushroom e-book:')
-    # print('-' * 50)
-    # top_count(mushies.histogram, 5)
-    # print(f"\nunique words: {unique_words(mushies.histogram)}")
-    # print(f"Frequency of the word 'and': {frequency(mushies.histogram, 'and')}")
-    # end = time.time()
-    # print(f"Seconds: {end-start}")
-    #
-    # print('\n')
-
-    # start = time.time()
-    # print('How much wood could a Woodchuck chuck??:')
-    # print('-' * 50)
-    # woodchuck = Histogram('how much wood would a woodchuck chuck if a woodchuck could chuck wood a woodchuck would chuck as much wood as a woodchuck could chuck if a woodchuck could chuck wood')
-    # print(f"\nList of Lists: {get_histogram(woodchuck.word_list, 'SL')}")
-    # print(f"List of Tuples: {get_histogram(woodchuck.word_list, 'ST')}")
-    # print(f"Dictionary: {woodchuck.histogram}")
-    # # top_count(woodchuck.histogram, -1)
-    # print(f"\nunique words: {unique_words(woodchuck.histogram)}")
-    # print(f"Frequency of the word 'woodchuck': {frequency(woodchuck.histogram, 'woodchuck')}")
-    # print(woodchuck.histogram)
-    # print(woodchuck.markov_chain)
-    # word_list = []
-    # for _ in range(100000):
-    #     word_list.append(sample_by_frequency(woodchuck.histogram, woodchuck.total_tokens))
-    # sample_histogram = Histogram(word_list)
-    # print(sample_histogram.histogram)
-    # end = time.time()
-    # print(f"Seconds: {end-start}")
 
