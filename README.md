@@ -24,7 +24,7 @@ If like a sentence, you click the Tweet button and it'll eventually be tweeted o
     - [Listogram](assignment_stuff/listogram.py)
 #### Demo 3
 - [Markov](https://github.com/AcidicNic/CS-12-Intro-To-Data-Structures/blob/285a3a28250001fb2e57e65d9c92ef137e59db7b/histogram.py#L94)
-    - [markov.py (startercode)]()
+    - [markov.py (startercode)](assignment_stuff/markov.py)
 - [LinkedList](assignment_stuff/linkedlist.py)
     - [Length](https://github.com/AcidicNic/CS-12-Intro-To-Data-Structures/blob/285a3a28250001fb2e57e65d9c92ef137e59db7b/assignment_stuff/linkedlist.py#L62)
     - [Append](https://github.com/AcidicNic/CS-12-Intro-To-Data-Structures/blob/285a3a28250001fb2e57e65d9c92ef137e59db7b/assignment_stuff/linkedlist.py#L74)
