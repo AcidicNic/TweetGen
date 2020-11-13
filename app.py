@@ -4,21 +4,24 @@ import pymongo
 from datetime import datetime, timedelta
 from bson import ObjectId
 import tweepy
-import os
 
-from secret import api_key, api_secret, access_token, access_token_secret
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+
 from histogram import *
 import source_text
 
 # Authenticate to Twitter
-auth = tweepy.OAuthHandler(api_key, api_secret)
-auth.set_access_token(access_token, access_token_secret)
+auth = tweepy.OAuthHandler(os.getenv('API_KEY'), os.getenv('API_SECRET'))
+auth.set_access_token(os.getenv('ACCESS_TOKEN'), os.getenv('ACCESS_TOKEN_SECRET'))
 # Creating Tweepy API object
 tweet = tweepy.API(auth)
 
 app = Flask(__name__)
 
-host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/TweetGen')
+host = os.getenv('MONGODB_URI', 'mongodb://localhost:27017/TweetGen')
 client = pymongo.MongoClient(host=f'{host}?retryWrites=false')
 db = client.get_default_database()
 favorites = db.favorites
@@ -231,6 +234,4 @@ def delete_fav(tweet_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
-
-
+    app.run(debug=True, host='0.0.0.0', port=int(os.getenv('PORT', 3000)))
