@@ -38,7 +38,6 @@ def tweet_sentence(random_sentence_lol):
 
 
 def tweet_it():
-    """ Function for test purposes. """
     for faved_tweet in favorites.find({'status_id': {"$exists": False}}):
         if "tweeted" not in faved_tweet:
             new_id = tweet_sentence(faved_tweet['tweet'])
@@ -118,7 +117,8 @@ def cuco_music():
             'tweet': cuco_gen['rand_sentence'],
             'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
             'name': cuco_gen['name'],
-            'gen_url': cuco_gen['url']
+            'gen_url': cuco_gen['url'],
+            'num': favorites.count_documents({})
         }
         favorites.insert_one(fav_tweet)
         cuco_gen['intent'] = 'TWEET'
@@ -135,7 +135,8 @@ def trip_report():
             'tweet': trip_gen['rand_sentence'],
             'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
             'name': trip_gen['name'],
-            'gen_url': trip_gen['url']
+            'gen_url': trip_gen['url'],
+            'num': favorites.count_documents({})
         }
         favorites.insert_one(fav_tweet)
         trip_gen['intent'] = 'TWEET'
@@ -152,7 +153,8 @@ def hobo_johnson():
             'tweet': hobo_gen['rand_sentence'],
             'time': datetime.now().strftime('%-d %b %Y, %-I:%M %p'),
             'name': hobo_gen['name'],
-            'gen_url': hobo_gen['url']
+            'gen_url': hobo_gen['url'],
+            'num': favorites.count_documents({})
         }
         favorites.insert_one(fav_tweet)
         hobo_gen['intent'] = 'TWEET'
@@ -164,7 +166,7 @@ def hobo_johnson():
 
 @app.route('/favs')
 def favorite():
-    return render_template('favs.html', tweets=favorites.find().sort("time", pymongo.DESCENDING), title="Favorites!")
+    return render_template('favs.html', tweets=favorites.find().sort("num", pymongo.DESCENDING), title="Favorites!")
 
 
 @app.route('/favs/<tweet_id>/delete', methods=['POST'])
